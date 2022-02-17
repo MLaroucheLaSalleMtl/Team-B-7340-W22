@@ -77,7 +77,7 @@ public class ThirdPersonMoving : MonoBehaviour
 
         if (direction.magnitude >= 0.1f)
         {
-            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
+            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;// use only last 
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
@@ -235,6 +235,11 @@ public class ThirdPersonMoving : MonoBehaviour
 
     }
 
+    private void EnableGun()
+	{
+        //interact with the bool
+	}
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Pushable"))
@@ -289,6 +294,9 @@ public class ThirdPersonMoving : MonoBehaviour
 
         // Apply the push
         body.velocity = pushDir * pushPower;  }
+
+    // for cam 
+    // center the cursor, and disable the visual of the cursor, show a crosshair, disable rotation with keys 
      
 }
 
