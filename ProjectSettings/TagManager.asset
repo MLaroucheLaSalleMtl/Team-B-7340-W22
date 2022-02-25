@@ -7,6 +7,10 @@ TagManager:
   - Pushable
   - NPC
   - MiniMap
+  - CinemachineTarget
+  - Ground
+  - Target
+  - Spider
   layers:
   - Default
   - TransparentFX
