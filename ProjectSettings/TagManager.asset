@@ -10,7 +10,9 @@ TagManager:
   - CinemachineTarget
   - Ground
   - Target
-  - Spider
+  - Spider1
+  - Spider2
+  - Spider3
   layers:
   - Default
   - TransparentFX

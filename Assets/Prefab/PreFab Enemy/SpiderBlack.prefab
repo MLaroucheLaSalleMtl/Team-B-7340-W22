@@ -20,7 +20,7 @@ PrefabInstance:
     - target: {fileID: 8672787908860700878, guid: d7aa467cc2d06614c81778313afa4825,
         type: 3}
       propertyPath: m_TagString
-      value: Spider
+      value: Spider3
       objectReference: {fileID: 0}
     - target: {fileID: 8672787908860998894, guid: d7aa467cc2d06614c81778313afa4825,
         type: 3}
@@ -45,17 +45,17 @@ PrefabInstance:
     - target: {fileID: 8672787908860998894, guid: d7aa467cc2d06614c81778313afa4825,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -44.2
+      value: 66.9
       objectReference: {fileID: 0}
     - target: {fileID: 8672787908860998894, guid: d7aa467cc2d06614c81778313afa4825,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 25.605
+      value: 40.83
       objectReference: {fileID: 0}
     - target: {fileID: 8672787908860998894, guid: d7aa467cc2d06614c81778313afa4825,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 38.32
+      value: 87.24
       objectReference: {fileID: 0}
     - target: {fileID: 8672787908860998894, guid: d7aa467cc2d06614c81778313afa4825,
         type: 3}
@@ -112,7 +112,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!135 &1910953170
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -124,8 +124,8 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 0.35
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!114 &1910953168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,7 +148,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 8490864532421093919}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.01
+  m_Radius: 0.5
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -168,7 +168,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8490864532421093919}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a6a9abb20cb634498183ef6726b0751, type: 3}
   m_Name: 
@@ -176,4 +176,19 @@ MonoBehaviour:
   startSpeed: 50
   speed: 50
   starHealth: 100
-  DeathEffect: {fileID: 0}
+  DeathEffect: {fileID: 1440847086223425093, guid: 93146bea291e61440bc48a4dc2ebb664,
+    type: 3}
+--- !u!114 &2014556577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8490864532421093919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0437c0a62b11aa4c820d61771ea5cb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeValue: 5
+  spiderBlack: {fileID: 8490864532421093919}

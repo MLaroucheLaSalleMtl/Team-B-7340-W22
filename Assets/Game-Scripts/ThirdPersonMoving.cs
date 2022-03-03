@@ -1,10 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class ThirdPersonMoving : MonoBehaviour
 
 {
+
+
+    // talk to the spider behavior script
+    //private SpiderPurp_Behavior spider_Behavior;
+    //private SpiderRed_Behavior2 spiderRed_Behavior;
+    //private SpiderBlack_Behavior1 spiderBlack_Behavior;
+
     // Capsule scaling
     [SerializeField] private float capsule_scale;
     const float full_scale = 1.0f;
@@ -22,7 +30,7 @@ public class ThirdPersonMoving : MonoBehaviour
     // cam 
     //[SerializeField] private float turnSmoothTime = 0.1f;
     //[SerializeField] private float turnSmoothVelocity;
-   // public Transform cam;
+    // public Transform cam;
 
     // jump
     [SerializeField] private float jumpHeight = 3f;
@@ -58,11 +66,11 @@ public class ThirdPersonMoving : MonoBehaviour
     public float yaw = 0.0f;
     public float pitch = 0.0f;
 
-    
-    public float TopClamp = 70.0f;   
-    public float BottomClamp = -25.0f;
 
-   
+    public float TopClamp = 55.0f;
+    public float BottomClamp = -30.0f;
+
+
 
     private void Awake()
     {
@@ -72,12 +80,16 @@ public class ThirdPersonMoving : MonoBehaviour
     {
         anim = GetComponentInChildren<Animator>();
         capsule_scale = controller.height;
+
+        //spider_Behavior = GetComponent<SpiderPurp_Behavior>();
+        //spiderRed_Behavior = GetComponent<SpiderRed_Behavior2>();
+        //spiderBlack_Behavior = GetComponent<SpiderBlack_Behavior1>();
     }
 
     // Update is called once per frame
     void Update()
     {
-       
+
 
         CheckGrounded();
 
@@ -123,7 +135,7 @@ public class ThirdPersonMoving : MonoBehaviour
                 Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
                 controller.Move(moveDir.normalized * current_speed * Time.deltaTime);
 
-                
+
             }
             else if (hasGun)
             {
@@ -132,16 +144,16 @@ public class ThirdPersonMoving : MonoBehaviour
                 CamRotation();
 
                 Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-                controller.Move(moveDir.normalized * current_speed * Time.deltaTime);              
+                controller.Move(moveDir.normalized * current_speed * Time.deltaTime);
             }
 
             Walk();
             Run();
-        
+
 
         }
 
-        else 
+        else
         {
             CamRotation();
             Idle();
@@ -160,7 +172,7 @@ public class ThirdPersonMoving : MonoBehaviour
         yaw = ClampAngle(yaw, float.MinValue, float.MaxValue);
         pitch = ClampAngle(pitch, BottomClamp, TopClamp);
         transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
-        
+
     }
 
     private void ResetFallingSpeed()
@@ -193,7 +205,7 @@ public class ThirdPersonMoving : MonoBehaviour
         if (isGrounded && !hasGun && !isRunning)
         {
             anim.SetFloat("Speed", 0.5f, 0.1f, Time.deltaTime);
-           // anim.SetFloat("Speed", anim_Magnitud* 0.5f); // this code is using the magnitude of the vector direction to activate different anims in the animator threshold.
+            // anim.SetFloat("Speed", anim_Magnitud* 0.5f); // this code is using the magnitude of the vector direction to activate different anims in the animator threshold.
             anim.SetBool("Jump", false);
             anim.SetBool("hasGun", false);
         }
@@ -375,7 +387,7 @@ public class ThirdPersonMoving : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
-            
+
             Cursor.visible = true;
         }
         else if (Input.GetKeyUp(KeyCode.Mouse1))
@@ -400,17 +412,48 @@ public class ThirdPersonMoving : MonoBehaviour
                 Debug.DrawRay(Input.mousePosition, transform.forward * hit.distance, Color.green);
 
 
-                //  if (hit.collider.CompareTag("Target"))
+                if (hit.collider.CompareTag("Spider1"))
+                {
 
-                Transform objectHit = hit.transform;
-                hit.collider.gameObject.SetActive(false);
-                Debug.Log("target hit!");
+                    Transform objectHit = hit.transform;
+                    
+
+                    hit.collider.gameObject.GetComponent<SpiderPurp_Behavior>().SpiderHit();
+
+                    Debug.Log("Soldier Spider hit!");
+                }
+
+
+                else if (hit.collider.CompareTag("Spider2"))
+                {
+
+                    Transform objectHit = hit.transform;
+
+
+                    hit.collider.gameObject.GetComponent<SpiderRed_Behavior2>().SpiderHit();
+
+                    Debug.Log("Tank spider hit!");
+                }
+
+                else if (hit.collider.CompareTag("Spider3"))
+                {
+
+                    Transform objectHit = hit.transform;
+
+
+                    hit.collider.gameObject.GetComponent<SpiderBlack_Behavior1>().SpiderHit();
+
+                    Debug.Log("Vanguard spider hit!");
+                }
+
+                else
+                {
+                    Debug.Log("miss!");
+                }
+
             }
 
-            else
-            {
-                Debug.Log("miss!");
-            }
+
         }
 
     }
@@ -438,3 +481,4 @@ public class ThirdPersonMoving : MonoBehaviour
 //https://www.youtube.com/watch?v=_QajrabyTJc
 //https://www.youtube.com/watch?v=4HpC--2iowE
 //https://docs.unity3d.com/ScriptReference/MonoBehaviour.OnControllerColliderHit.html
+//https://docs.unity3d.com/Manual/CameraRays.html

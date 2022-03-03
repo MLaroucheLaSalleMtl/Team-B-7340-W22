@@ -27,12 +27,12 @@ public class ActivateZone : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log("Enter Zone");
-            //spiders.spawnPoint.gameObject.SetActive(true);
+            //spiders.spawnPoint1.gameObject.SetActive(true);
             //spiders.enabled = true; 
             //stopSpiders = false;
             //activeSpiders = true;
             //spiders.gameObject.SetActive(true);
-            spiders.SpawnSpider(true); 
+            spiders.SpawnSpiderPurple(true); 
 
         }
     }
@@ -45,7 +45,7 @@ public class ActivateZone : MonoBehaviour
             //spiders.spawnPoint.gameObject.SetActive(false);
             //spiders.enabled = false; 
             //spiders.gameObject.SetActive(false);  
-            spiders.SpawnSpider(false);
+            spiders.SpawnSpiderPurple(false);
         }
     }
 }

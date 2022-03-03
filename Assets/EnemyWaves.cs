@@ -9,54 +9,122 @@ public class EnemyWaves : MonoBehaviour
 
     //public static int spidersAlive = 0;
 
-    public Transform spiderPrefab;
-    public Transform spawnPoint; 
+    public Transform spiderPrefabPurple;  
+    public Transform spiderPrefabRed; 
+    public Transform spiderPrefabBlack;
+
+    public Transform spawnPoint1;   
+    public Transform spawnPoint2;
 
     public float timeBetweenWaves = 5.0f;
     private float countDown = 2.0f;
 
     private int waveIndex = 1;
 
-    private bool test; 
+    private bool test;
 
     private void Update()
     {
         if (countDown <= 0f)
         {
-            StartCoroutine(SpawnWave()); 
-            SpawnWave();
-            countDown = timeBetweenWaves; 
+            StartCoroutine(SpawnWavePurple());
+            StartCoroutine(SpawnWaveRed());
+            StartCoroutine(SpawnWaveBlack());
+            //SpawnWave();
+            countDown = timeBetweenWaves;
         }
-        countDown -= Time.deltaTime; 
+        countDown -= Time.deltaTime;
     }
 
-    public IEnumerator SpawnWave() 
+    public IEnumerator SpawnWavePurple()
     {
         for (int i = 0; i < waveIndex; i++)
         {
-            SpawnSpider(test);
-            yield return new WaitForSeconds(0.5f); 
+            SpawnSpiderPurple(test);
+            yield return new WaitForSeconds(0.5f);
         }
-        waveIndex++; 
+        waveIndex++;
     }
 
-    public bool SpawnSpider(bool enable)
+    public IEnumerator SpawnWaveRed()
     {
-        //enable = true; 
+        for (int i = 0; i < waveIndex; i++)
+
+        {
+            SpawnSpiderRed(test);
+            yield return new WaitForSeconds(3.0f);
+        }
+    }
+
+    public IEnumerator SpawnWaveBlack()
+    {
+        for (int i = 0; i < waveIndex; i++)
+
+        {
+            SpawnSpiderBlack(test);
+            yield return new WaitForSeconds(1.5f);
+        }
+    }
+
+    public bool SpawnSpiderPurple(bool enable)
+    {
+        //enable = true;
         if (enable == true)
         {
-            Instantiate(spiderPrefab, spawnPoint.position, spawnPoint.rotation);
-            test = true; 
-            return true; 
+            Instantiate(spiderPrefabPurple, spawnPoint1.position, spawnPoint1.rotation);
+            Instantiate(spiderPrefabPurple, spawnPoint2.position, spawnPoint2.rotation);
+
+            test = true;
+            return true;
         }
         else if (enable == false)
         {
             //Instantiate(spiderPrefab, spawnPoint.position, spawnPoint.rotation);
-            test = false; 
-            return false; 
+            test = false;
+            return false;
         }
         return enable;
     }
+
+    public bool SpawnSpiderRed(bool enable)
+    {
+        //enable = true; 
+        if (enable == true)
+        {
+
+            Instantiate(spiderPrefabRed, spawnPoint1.position, spawnPoint1.rotation);
+            Instantiate(spiderPrefabRed, spawnPoint2.position, spawnPoint2.rotation);
+            test = true;
+            return true;
+        }
+        else if (enable == false)
+        {
+            test = false;
+            return false;
+        }
+        return enable;
+    }
+
+    public bool SpawnSpiderBlack(bool enable)
+    {
+        //enable = true; 
+        if (enable == true)
+        {
+
+            Instantiate(spiderPrefabBlack, spawnPoint1.position, spawnPoint1.rotation);
+            Instantiate(spiderPrefabBlack, spawnPoint2.position, spawnPoint2.rotation);
+
+            test = true;
+            return true;
+        }
+        else if (enable == false)
+        {
+            test = false;
+            return false;
+        }
+        return enable;
+    }
+
 
 
     ////public GameObject spidersPrefab;

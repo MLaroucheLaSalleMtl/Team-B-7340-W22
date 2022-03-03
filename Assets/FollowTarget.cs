@@ -3,8 +3,8 @@ using UnityEngine;
 
 // This integrate the desire component to the obj 
 [RequireComponent(typeof(NavMeshAgent))]
-[RequireComponent(typeof(SphereCollider))]
-[RequireComponent(typeof(BoxCollider))]
+//[RequireComponent(typeof(SphereCollider))]
+//[RequireComponent(typeof(BoxCollider))]
 
 public class FollowTarget : MonoBehaviour
 {
@@ -16,8 +16,8 @@ public class FollowTarget : MonoBehaviour
     private NavMeshAgent agent;
 
     // For components 
-    private BoxCollider boxColliderTrigger;
-    private SphereCollider sphereCollider;
+    //private BoxCollider boxColliderTrigger;
+    //private SphereCollider sphereCollider;
 
     // For Moving 
     Vector3 lastPosition;
@@ -48,17 +48,17 @@ public class FollowTarget : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         destination = agent.destination;
         
-        // Setting components with desire values 
-        // boxColliderTrigger is for recognize the player 
-        boxColliderTrigger = GetComponent<BoxCollider>();
-        boxColliderTrigger.isTrigger = true;
-        boxColliderTrigger.size = new Vector3(1.5f, 1.5f, 1.5f); 
-        boxColliderTrigger.center = new Vector3(0f, 0.5f, 0f); 
+        //// Setting components with desire values 
+        //// boxColliderTrigger is for recognize the player 
+        //boxColliderTrigger = GetComponent<BoxCollider>();
+        //boxColliderTrigger.isTrigger = true;
+        //boxColliderTrigger.size = new Vector3(1.5f, 1.5f, 1.5f); 
+        //boxColliderTrigger.center = new Vector3(0f, 0.5f, 0f); 
 
-        // sphereCollider is to push the player 
-        sphereCollider = GetComponent<SphereCollider>();
-        sphereCollider.radius = 0.8f;
-        sphereCollider.center = new Vector3(0f, 0.5f, 0f);
+        //// sphereCollider is to push the player 
+        //sphereCollider = GetComponent<SphereCollider>();
+        //sphereCollider.radius = 0.6f;
+        //sphereCollider.center = new Vector3(0f, 0.5f, 0f);
 
     }
 
@@ -108,21 +108,5 @@ public class FollowTarget : MonoBehaviour
     //    }
     //}
 
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    // recognize if the player is touch 
-    //    if (other.CompareTag("Player"))
-    //    {
-    //        Debug.Log("Player Reached!"); 
-    //    }
-    //}
-
-    //private void OnTriggerExit(Collider other)
-    //{
-    //    // recognize if the player is running away 
-    //    if (other.CompareTag("Player"))
-    //    {
-    //        Debug.Log("Player Got Away!"); 
-    //    }
-    //}
+ 
 }
