@@ -13,6 +13,8 @@ TagManager:
   - Spider1
   - Spider2
   - Spider3
+  - SpawnPoint
+  - Death
   layers:
   - Default
   - TransparentFX

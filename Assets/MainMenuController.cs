@@ -64,7 +64,7 @@ public class MainMenuController: MonoBehaviour
 
 	public void NewGameBtnYes()
 	{
-		SceneManager.LoadScene(_newGame);
+		SceneManager.LoadScene("6thFloor");
 	}
 
 	public void LoadGameBtnYes()

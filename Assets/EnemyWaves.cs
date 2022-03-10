@@ -6,6 +6,9 @@ public class EnemyWaves : MonoBehaviour
 {
     //// Spawn Spiders 
     //// https://www.youtube.com/watch?v=n2DXF1ifUbU&list=PLPV2KyIb3jR4u5jX8za5iU1cqnQPmbzG0&index=7
+    /// SpawnRandom [] 
+    /// https://www.youtube.com/watch?v=6jJ6T8M_DcM
+    /// </summary>
 
     //public static int spidersAlive = 0;
 
@@ -14,7 +17,7 @@ public class EnemyWaves : MonoBehaviour
     public Transform spiderPrefabBlack;
 
     public Transform spawnPoint1;   
-    public Transform spawnPoint2;
+   // public Transform spawnPoint2;
 
     public float timeBetweenWaves = 5.0f;
     private float countDown = 2.0f;
@@ -22,6 +25,7 @@ public class EnemyWaves : MonoBehaviour
     private int waveIndex = 1;
 
     private bool test;
+
 
     private void Update()
     {
@@ -66,13 +70,33 @@ public class EnemyWaves : MonoBehaviour
         }
     }
 
-    public bool SpawnSpiderPurple(bool enable)
+    private void OnTriggerEnter(Collider other)
     {
+        if (other.gameObject.tag == "Player")
+        {
+            SpawnSpiderPurple(true);
+            SpawnSpiderRed(true);
+            SpawnSpiderBlack(true); 
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            SpawnSpiderPurple(false);
+            SpawnSpiderRed(false);
+            SpawnSpiderBlack(false);
+        }
+    }
+
+    public bool SpawnSpiderPurple(bool enable)
+    {        
         //enable = true;
         if (enable == true)
         {
             Instantiate(spiderPrefabPurple, spawnPoint1.position, spawnPoint1.rotation);
-            Instantiate(spiderPrefabPurple, spawnPoint2.position, spawnPoint2.rotation);
+            //Instantiate(spiderPrefabPurple, spawnPoint2.position, spawnPoint2.rotation);
 
             test = true;
             return true;
@@ -93,7 +117,7 @@ public class EnemyWaves : MonoBehaviour
         {
 
             Instantiate(spiderPrefabRed, spawnPoint1.position, spawnPoint1.rotation);
-            Instantiate(spiderPrefabRed, spawnPoint2.position, spawnPoint2.rotation);
+            // Instantiate(spiderPrefabRed, spawnPoint2.position, spawnPoint2.rotation);
             test = true;
             return true;
         }
@@ -112,7 +136,7 @@ public class EnemyWaves : MonoBehaviour
         {
 
             Instantiate(spiderPrefabBlack, spawnPoint1.position, spawnPoint1.rotation);
-            Instantiate(spiderPrefabBlack, spawnPoint2.position, spawnPoint2.rotation);
+            // Instantiate(spiderPrefabBlack, spawnPoint2.position, spawnPoint2.rotation);
 
             test = true;
             return true;

@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         Map();
+        Quit();
     }
 
     private void Map()
@@ -31,4 +32,13 @@ public class GameManager : MonoBehaviour
             map.SetActive(false);
         }
     }
+
+    private void Quit()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+    }
+
 }

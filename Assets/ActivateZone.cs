@@ -5,6 +5,11 @@ using UnityEngine;
 public class ActivateZone : MonoBehaviour
 {
     private EnemyWaves spiders;
+    //[SerializeField] private BoxCollider col; 
+    //[SerializeField] private string zone; 
+    //[SerializeField] private bool inside = false;
+    //[SerializeField] private bool outside = true; 
+
 
     //private BoxCollider box;
 
@@ -22,18 +27,33 @@ public class ActivateZone : MonoBehaviour
     //    activeSpiders = false; 
     //}
 
-    private void OnTriggerEnter(Collider other)
+    //public bool SpawnSpiderPurple(bool enable)
+    //{
+    //    //enable = true;
+    //    if (enable == true)
+    //    {
+    //        Instantiate(spiderPrefabPurple, spawnPoint1.position, spawnPoint1.rotation);
+    //        //Instantiate(spiderPrefabPurple, spawnPoint2.position, spawnPoint2.rotation);
+
+    //        test = true;
+    //        return true;
+    //    }
+    //    else if (enable == false)
+    //    {
+    //        //Instantiate(spiderPrefab, spawnPoint.position, spawnPoint.rotation);
+    //        test = false;
+    //        return false;
+    //    }
+    //    return enable;
+    //}
+
+    private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             Debug.Log("Enter Zone");
-            //spiders.spawnPoint1.gameObject.SetActive(true);
-            //spiders.enabled = true; 
-            //stopSpiders = false;
-            //activeSpiders = true;
-            //spiders.gameObject.SetActive(true);
-            spiders.SpawnSpiderPurple(true); 
-
+            
+            //spiders.SpawnSpiderPurple(true);
         }
     }
 
@@ -42,9 +62,6 @@ public class ActivateZone : MonoBehaviour
         if(other.CompareTag("Player"))
         {
             Debug.Log("ExitZone");
-            //spiders.spawnPoint.gameObject.SetActive(false);
-            //spiders.enabled = false; 
-            //spiders.gameObject.SetActive(false);  
             spiders.SpawnSpiderPurple(false);
         }
     }

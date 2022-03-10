@@ -2,11 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 
 public class ThirdPersonMoving : MonoBehaviour
 
 {
+    // killed spiders counter
+    [SerializeField] private Text txtKills;
+    [SerializeField] private int kills = 0;
+    const string preText1 = "SPIDERS KILLED: ";
 
+    // particle system shooting effects
+    [SerializeField] private GameObject water;
+    [SerializeField] private GameObject spBlood;
+    [SerializeField] private Canvas aimCanvas;
 
     // talk to the spider behavior script
     //private SpiderPurp_Behavior spider_Behavior;
@@ -75,11 +84,14 @@ public class ThirdPersonMoving : MonoBehaviour
     private void Awake()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        aimCanvas.enabled = false;
     }
     private void Start()
     {
         anim = GetComponentInChildren<Animator>();
         capsule_scale = controller.height;
+
+        RefreshDisplay();
 
         //spider_Behavior = GetComponent<SpiderPurp_Behavior>();
         //spiderRed_Behavior = GetComponent<SpiderRed_Behavior2>();
@@ -109,8 +121,13 @@ public class ThirdPersonMoving : MonoBehaviour
 
     }
 
+   
     public GameObject followTransform;
 
+    void RefreshDisplay()
+    {         
+        txtKills.text = preText1 + kills.ToString();
+    }
     private void Move()
     {
         float horizontal = Input.GetAxis("Horizontal");
@@ -229,6 +246,7 @@ public class ThirdPersonMoving : MonoBehaviour
             anim.SetBool("hasGun", false);
             current_speed *= 2f;
             isRunning = true;
+          
         }
 
         else if (Input.GetKeyDown(KeyCode.LeftShift) && (isGrounded) && hasGun)
@@ -270,6 +288,7 @@ public class ThirdPersonMoving : MonoBehaviour
         else if (isGrounded)
         {
             isJumping = false;
+            anim.SetBool("Jump", false);
         }
     }
     private void Crouch()
@@ -316,13 +335,14 @@ public class ThirdPersonMoving : MonoBehaviour
         {
             hasGun = true;
             anim.SetBool("hasGun", true);
-
+            aimCanvas.enabled = true;
 
         }
         else if (Input.GetKeyUp(KeyCode.Mouse1))
         {
             hasGun = false;
             anim.SetBool("hasGun", false);
+            aimCanvas.enabled = false;
         }
     }
 
@@ -388,7 +408,7 @@ public class ThirdPersonMoving : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
 
-            Cursor.visible = true;
+            Cursor.visible = false;
         }
         else if (Input.GetKeyUp(KeyCode.Mouse1))
         {
@@ -415,12 +435,14 @@ public class ThirdPersonMoving : MonoBehaviour
                 if (hit.collider.CompareTag("Spider1"))
                 {
 
-                    Transform objectHit = hit.transform;
-                    
-
+                    Transform objectHit = hit.transform;                 
                     hit.collider.gameObject.GetComponent<SpiderPurp_Behavior>().SpiderHit();
-
                     Debug.Log("Soldier Spider hit!");
+                    Quaternion rotation = Quaternion.LookRotation(hit.normal);
+                    GameObject copy = Instantiate(spBlood, hit.point, rotation);
+                    copy.transform.parent = hit.transform;
+                    kills++;
+                    RefreshDisplay();
                 }
 
 
@@ -428,29 +450,37 @@ public class ThirdPersonMoving : MonoBehaviour
                 {
 
                     Transform objectHit = hit.transform;
-
-
                     hit.collider.gameObject.GetComponent<SpiderRed_Behavior2>().SpiderHit();
-
                     Debug.Log("Tank spider hit!");
+                    Quaternion rotation = Quaternion.LookRotation(hit.normal);
+                    GameObject copy = Instantiate(spBlood, hit.point, rotation);
+                    copy.transform.parent = hit.transform;
+                    kills++;
+                    RefreshDisplay();
                 }
 
                 else if (hit.collider.CompareTag("Spider3"))
                 {
 
                     Transform objectHit = hit.transform;
-
-
                     hit.collider.gameObject.GetComponent<SpiderBlack_Behavior1>().SpiderHit();
-
                     Debug.Log("Vanguard spider hit!");
+                    Quaternion rotation = Quaternion.LookRotation(hit.normal);
+                    GameObject copy = Instantiate(spBlood, hit.point, rotation);
+                    copy.transform.parent = hit.transform;
+                    kills++;
+                    RefreshDisplay();
                 }
 
-                else
+                else if (hit.collider.CompareTag("Ground"))
                 {
-                    Debug.Log("miss!");
+                    Transform objectHit = hit.transform;
+                    Quaternion rotation = Quaternion.LookRotation(hit.normal);
+                    GameObject copy = Instantiate(water, hit.point, rotation);
+                    copy.transform.parent = hit.transform;
                 }
 
+                RefreshDisplay();
             }
 
 

@@ -307,7 +307,7 @@ public class ThirdPersonMoving6thFloor : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
 
-            Cursor.visible = true;
+            Cursor.visible = false;
         }
         else if (Input.GetKeyUp(KeyCode.Mouse1))
         {
