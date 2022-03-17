@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement; 
+using UnityEngine.SceneManagement;
 
 public class Death : MonoBehaviour
 {
@@ -14,11 +14,13 @@ public class Death : MonoBehaviour
     [SerializeField] private int damage = 2;
     //[SerializeField] private int bites = 0;
     public Text healthText;
-    const string preText1 = "HEALTH: "; 
+    const string preText1 = "HEALTH: ";
 
     // Losing by timer
 
     public float timeValue = 180;
+    public float penalty = 30f;
+    public float bonus = 20f;
     public Text timerText;
 
     private void Start()
@@ -40,27 +42,22 @@ public class Death : MonoBehaviour
         else
         {
             timeValue = 0;
-            SceneManager.LoadScene("lostMenu"); 
+            SceneManager.LoadScene("lostMenu");
             Debug.Log("YOU LOST!");
         }
-
+      
         DisplayTime(timeValue);
-    }
-
-    void RefreshDisplay()
-    {
-        healthText.text = preText1 + health.ToString();     
     }
 
     void FixedUpdate()
     {
-        Debug.Log("Original position" + originalPos);
-        // Debug.Log("Current position" +transform.position);
-        // ResetPosition();
-        //   Bites();
         Health();
     }
 
+    void RefreshDisplay()
+    {
+        healthText.text = preText1 + health.ToString();
+    }
     public void DisplayTime(float timeToDisplay)
     {
         if (timeToDisplay < 0)
@@ -81,35 +78,39 @@ public class Death : MonoBehaviour
     {
         if (health <= 0)
         {
+
             ResetPosition();
             health = 100;
+            RefreshDisplay();
+            timeValue -= penalty;
         }
-        
+
     }
-    //public void Bites()
-    //{
-    //    if (bites == 50)
-    //    {
-    //        ResetPosition();           
-    //        bites = 0;
-    //    }
-    //}
+
+    public void TimeModifier()
+    {
+
+        if (gameObject.GetComponent<ThirdPersonMoving>().kills % bonus == 0 && gameObject.GetComponent<ThirdPersonMoving>().kills != 0)
+        {
+            timeValue += bonus;
+        }
+    }
 
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Death"))
         {
-            Debug.Log("DEATHZONE");
+            //Debug.Log("DEATHZONE");
             health = 0;
             //bites = 50;
         }
 
         else if (other.CompareTag("Spider1") || other.CompareTag("Spider2") || other.CompareTag("Spider3"))
         {
-            Debug.Log("BITES+1");
+            // Debug.Log("BITES+1");
             //bites++;
             health -= damage;
-            RefreshDisplay(); 
+            RefreshDisplay();
         }
 
     }
@@ -117,10 +118,10 @@ public class Death : MonoBehaviour
     {
         if (other.CompareTag("Spider1") || other.CompareTag("Spider2") || other.CompareTag("Spider3"))
         {
-            Debug.Log("BITES+1");
+            //Debug.Log("BITES+1");
             // bites = bites++;
             health = health - ((int)(damage * Time.deltaTime));
-            RefreshDisplay(); 
+            RefreshDisplay();
         }
     }
 }

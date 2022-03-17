@@ -130,10 +130,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1238689351c6af4195b6c64b32172ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  splashGround: {fileID: 8300000, guid: f624da56fae914f44b2e851088907998, type: 3}
+  txtKills: {fileID: 0}
+  kills: 0
+  water: {fileID: 0}
+  spBlood: {fileID: 0}
+  aimCanvas: {fileID: 0}
   capsule_scale: 0
   controller: {fileID: 2697497650346414681}
   current_speed: 3
   isCrouched: 0
+  isRunning: 0
   jumpHeight: 1
   isJumping: 0
   gravity: -12

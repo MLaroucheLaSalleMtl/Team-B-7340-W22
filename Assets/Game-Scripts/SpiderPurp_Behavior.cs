@@ -7,8 +7,11 @@ using UnityEngine.AI;
 [RequireComponent(typeof(BoxCollider))]
 public class SpiderPurp_Behavior : MonoBehaviour
 {
+    // spider sounds
+
+    public AudioSource spiderBite;
     // TIMER
- 
+
     public float timeValue = 5;
     [SerializeField] private GameObject spiderPurp;
     
@@ -46,6 +49,8 @@ public class SpiderPurp_Behavior : MonoBehaviour
 
         navSpider.radius = 0.35f;
 
+        navSpider.speed = 4.5f;
+
         navSpider.avoidancePriority = 2;
 
 
@@ -64,16 +69,20 @@ public class SpiderPurp_Behavior : MonoBehaviour
         if (isDead && timeValue > 0)
         {
             timeValue -= Time.deltaTime;
-            Debug.Log(timeValue);
+           // Debug.Log(timeValue);
             
         }
         else if (isDead && timeValue <= 0)
         {
             timeValue = 0;
-            Debug.Log(timeValue);            
+           // Debug.Log(timeValue);            
             Destroy(spiderPurp);
-        }        
+        }
 
+        else if (gameObject.GetComponent<FollowTarget>().LeftBehind())
+        {
+            Destroy(spiderPurp);
+        }
     }
 
 
@@ -95,8 +104,9 @@ public class SpiderPurp_Behavior : MonoBehaviour
         // recognize if the player is touch 
         if (other.CompareTag("Player"))
         {
+            spiderBite.PlayOneShot(spiderBite.clip);
             anim.SetTrigger("Bite");
-            Debug.Log("BITE ATTACK!");
+           // Debug.Log("BITE ATTACK!");
         }
     }
 
@@ -105,7 +115,7 @@ public class SpiderPurp_Behavior : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             anim.SetTrigger("Bite");
-            Debug.Log("KEEP BITING!");
+           // Debug.Log("KEEP BITING!");
         }
     }
 
@@ -114,7 +124,7 @@ public class SpiderPurp_Behavior : MonoBehaviour
         // recognize if the player is running away 
         if (other.CompareTag("Player"))
         {
-            Debug.Log("FOLLOW PLAYER!");
+           // Debug.Log("FOLLOW PLAYER!");
         }
     }
 

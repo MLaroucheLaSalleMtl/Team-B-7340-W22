@@ -7,20 +7,19 @@ using UnityEngine.UI;
 public class ThirdPersonMoving : MonoBehaviour
 
 {
+    // audio effects
+    public AudioClip splashGround;
+    
+
     // killed spiders counter
     [SerializeField] private Text txtKills;
-    [SerializeField] private int kills = 0;
+    [SerializeField] public int kills = 0;
     const string preText1 = "SPIDERS KILLED: ";
 
     // particle system shooting effects
     [SerializeField] private GameObject water;
     [SerializeField] private GameObject spBlood;
     [SerializeField] private Canvas aimCanvas;
-
-    // talk to the spider behavior script
-    //private SpiderPurp_Behavior spider_Behavior;
-    //private SpiderRed_Behavior2 spiderRed_Behavior;
-    //private SpiderBlack_Behavior1 spiderBlack_Behavior;
 
     // Capsule scaling
     [SerializeField] private float capsule_scale;
@@ -35,11 +34,6 @@ public class ThirdPersonMoving : MonoBehaviour
     [SerializeField] private float current_speed = initial_speed;
     public bool isCrouched;
     public bool isRunning;
-
-    // cam 
-    //[SerializeField] private float turnSmoothTime = 0.1f;
-    //[SerializeField] private float turnSmoothVelocity;
-    // public Transform cam;
 
     // jump
     [SerializeField] private float jumpHeight = 3f;
@@ -66,6 +60,7 @@ public class ThirdPersonMoving : MonoBehaviour
     // shoot function
 
     public Camera cam;
+    private float range = 100f;
 
     // cam rotation when aiming
 
@@ -90,12 +85,7 @@ public class ThirdPersonMoving : MonoBehaviour
     {
         anim = GetComponentInChildren<Animator>();
         capsule_scale = controller.height;
-
         RefreshDisplay();
-
-        //spider_Behavior = GetComponent<SpiderPurp_Behavior>();
-        //spiderRed_Behavior = GetComponent<SpiderRed_Behavior2>();
-        //spiderBlack_Behavior = GetComponent<SpiderBlack_Behavior1>();
     }
 
     // Update is called once per frame
@@ -121,12 +111,13 @@ public class ThirdPersonMoving : MonoBehaviour
 
     }
 
-   
+
     public GameObject followTransform;
 
     void RefreshDisplay()
-    {         
+    {
         txtKills.text = preText1 + kills.ToString();
+        gameObject.GetComponent<Death>().TimeModifier();
     }
     private void Move()
     {
@@ -246,7 +237,7 @@ public class ThirdPersonMoving : MonoBehaviour
             anim.SetBool("hasGun", false);
             current_speed *= 2f;
             isRunning = true;
-          
+
         }
 
         else if (Input.GetKeyDown(KeyCode.LeftShift) && (isGrounded) && hasGun)
@@ -421,55 +412,42 @@ public class ThirdPersonMoving : MonoBehaviour
 
 
         RaycastHit hit;
-        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+        // Ray ray = cam.ScreenPointToRay(Input.mousePosition);
 
 
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
+            
 
-            if (Physics.Raycast(ray, out hit))
+            Debug.Log("Shoot");
+            // modified line 430 added cam. second argument
+            //if (Physics.Raycast(ray, out hit))
+            if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, range))
             {
-                Debug.DrawRay(Input.mousePosition, transform.forward * hit.distance, Color.green);
+                //Debug.DrawRay(Input.mousePosition, transform.forward * hit.distance, Color.green);
 
 
                 if (hit.collider.CompareTag("Spider1"))
                 {
-
-                    Transform objectHit = hit.transform;                 
                     hit.collider.gameObject.GetComponent<SpiderPurp_Behavior>().SpiderHit();
-                    Debug.Log("Soldier Spider hit!");
-                    Quaternion rotation = Quaternion.LookRotation(hit.normal);
-                    GameObject copy = Instantiate(spBlood, hit.point, rotation);
-                    copy.transform.parent = hit.transform;
-                    kills++;
-                    RefreshDisplay();
-                }
+                    ShotEffects(hit);
+                    
 
+                }
 
                 else if (hit.collider.CompareTag("Spider2"))
                 {
-
-                    Transform objectHit = hit.transform;
-                    hit.collider.gameObject.GetComponent<SpiderRed_Behavior2>().SpiderHit();
-                    Debug.Log("Tank spider hit!");
-                    Quaternion rotation = Quaternion.LookRotation(hit.normal);
-                    GameObject copy = Instantiate(spBlood, hit.point, rotation);
-                    copy.transform.parent = hit.transform;
-                    kills++;
-                    RefreshDisplay();
+                    hit.collider.gameObject.GetComponent<SpiderRed_Behavior>().SpiderHit();
+                    ShotEffects(hit);
+                   
                 }
 
                 else if (hit.collider.CompareTag("Spider3"))
                 {
+                    hit.collider.gameObject.GetComponent<SpiderBlack_Behavior>().SpiderHit();
+                    ShotEffects(hit);
+                   
 
-                    Transform objectHit = hit.transform;
-                    hit.collider.gameObject.GetComponent<SpiderBlack_Behavior1>().SpiderHit();
-                    Debug.Log("Vanguard spider hit!");
-                    Quaternion rotation = Quaternion.LookRotation(hit.normal);
-                    GameObject copy = Instantiate(spBlood, hit.point, rotation);
-                    copy.transform.parent = hit.transform;
-                    kills++;
-                    RefreshDisplay();
                 }
 
                 else if (hit.collider.CompareTag("Ground"))
@@ -478,15 +456,27 @@ public class ThirdPersonMoving : MonoBehaviour
                     Quaternion rotation = Quaternion.LookRotation(hit.normal);
                     GameObject copy = Instantiate(water, hit.point, rotation);
                     copy.transform.parent = hit.transform;
+                    AudioSource.PlayClipAtPoint(splashGround, hit.point);
                 }
-
-                RefreshDisplay();
             }
-
-
         }
-
     }
+
+    private void ShotEffects(RaycastHit hit)
+    {
+        Transform objectHit = hit.transform;
+        Quaternion rotation = Quaternion.LookRotation(hit.normal);
+        GameObject copy = Instantiate(spBlood, hit.point, rotation);
+        copy.transform.parent = hit.transform;
+        AudioSource.PlayClipAtPoint(splashGround, hit.point);
+        
+
+
+        kills++;
+        RefreshDisplay();
+    }
+
+
     // function taken from unity scripts, sets a limit to the vertical rotation of the camera
     private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
     {

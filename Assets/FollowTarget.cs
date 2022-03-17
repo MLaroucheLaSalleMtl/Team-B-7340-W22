@@ -10,8 +10,10 @@ public class FollowTarget : MonoBehaviour
 {
     // Variables 
 
+  
+
     // To follow 
-    [SerializeField] private Transform target;
+    private Transform target;
     private Vector3 destination;
     private NavMeshAgent agent;
 
@@ -30,14 +32,8 @@ public class FollowTarget : MonoBehaviour
 
     void Start()
     {
-        //Player = GameObject.Find("New Player");
-        //target = Player.transform; 
-
-
-        //// Prefab 
-        //Instantiate(Player, new Vector3(0, 0, 0), Quaternion.identity); 
+        target = GameObject.Find("Third Person Player 1.4").transform;
         
-        // 
         myTransform = transform;
         lastPosition = myTransform.position;
         isMoving = false;
@@ -48,24 +44,14 @@ public class FollowTarget : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         destination = agent.destination;
         
-        //// Setting components with desire values 
-        //// boxColliderTrigger is for recognize the player 
-        //boxColliderTrigger = GetComponent<BoxCollider>();
-        //boxColliderTrigger.isTrigger = true;
-        //boxColliderTrigger.size = new Vector3(1.5f, 1.5f, 1.5f); 
-        //boxColliderTrigger.center = new Vector3(0f, 0.5f, 0f); 
-
-        //// sphereCollider is to push the player 
-        //sphereCollider = GetComponent<SphereCollider>();
-        //sphereCollider.radius = 0.6f;
-        //sphereCollider.center = new Vector3(0f, 0.5f, 0f);
-
+       
     }
 
-    public void Update()
+    public void FixedUpdate()
     {
         Follow();
-        IsMoving(); 
+        IsMoving();
+        LeftBehind();
     }
 
     private void IsMoving()
@@ -76,6 +62,7 @@ public class FollowTarget : MonoBehaviour
             if (isMoving)
             {
                 anim.SetFloat("Speed", 1.0f);
+            
             }
         }
         else
@@ -83,7 +70,8 @@ public class FollowTarget : MonoBehaviour
             isMoving = false;
             if (!isMoving)
             {
-                anim.SetFloat("Speed", 0.0f); 
+                anim.SetFloat("Speed", 0.0f);
+               
             }
         }
         lastPosition = myTransform.position; 
@@ -95,18 +83,22 @@ public class FollowTarget : MonoBehaviour
         {
             destination = target.position;
             agent.destination = destination; 
+        }        
+    }
+
+    public bool LeftBehind()
+    {
+        if (Vector3.Distance(lastPosition, target.position) < 60f)
+        {           
+            return false;
+        }
+        else
+        {            
+            return true; 
         }
     }
 
-    //void FixedUpdate()
-    //{
-    //    // Identified the distance between the player and the spiders 
-    //    if (Vector3.Distance(destination, target.position) > 0.1f)
-    //    {
-    //        destination = target.position;
-    //        agent.destination = destination;
-    //    }
-    //}
+    
 
  
 }

@@ -20,9 +20,9 @@ public class EnemyWaves : MonoBehaviour
    // public Transform spawnPoint2;
 
     public float timeBetweenWaves = 5.0f;
-    private float countDown = 2.0f;
-
-    private int waveIndex = 1;
+    [SerializeField] private float countDown = 2.0f;
+    
+    [SerializeField] private int waveIndex = 1;
 
     private bool test;
 
