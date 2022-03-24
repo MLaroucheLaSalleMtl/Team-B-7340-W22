@@ -6,12 +6,13 @@ using UnityEngine.SceneManagement;
 
 public class Death : MonoBehaviour
 {
+  
     // For dying by falling or by health/bites 
 
     //[SerializeField] Transform player;
     private Vector3 originalPos;
-    [SerializeField] private int health = 100;
-    [SerializeField] private int damage = 2;
+    [SerializeField] public int health = 100;
+     
     //[SerializeField] private int bites = 0;
     public Text healthText;
     const string preText1 = "HEALTH: ";
@@ -54,7 +55,7 @@ public class Death : MonoBehaviour
         Health();
     }
 
-    void RefreshDisplay()
+    public void RefreshDisplay()
     {
         healthText.text = preText1 + health.ToString();
     }
@@ -72,6 +73,7 @@ public class Death : MonoBehaviour
     public void ResetPosition()
     {
         transform.position = originalPos;
+        health = 100;
     }
 
     public void Health()
@@ -79,11 +81,11 @@ public class Death : MonoBehaviour
         if (health <= 0)
         {
 
-            ResetPosition();
-            health = 100;
+            ResetPosition();           
             RefreshDisplay();
             timeValue -= penalty;
         }
+             
 
     }
 
@@ -99,29 +101,18 @@ public class Death : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Death"))
-        {
-            //Debug.Log("DEATHZONE");
-            health = 0;
-            //bites = 50;
+        {             
+            health = 0;            
         }
-
-        else if (other.CompareTag("Spider1") || other.CompareTag("Spider2") || other.CompareTag("Spider3"))
+        
+        if (other.CompareTag("CheckPoint"))
         {
-            // Debug.Log("BITES+1");
-            //bites++;
-            health -= damage;
-            RefreshDisplay();
+            Debug.Log("CHECKPOINT REACHED");
+            originalPos = transform.position;
         }
-
+         
     }
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.CompareTag("Spider1") || other.CompareTag("Spider2") || other.CompareTag("Spider3"))
-        {
-            //Debug.Log("BITES+1");
-            // bites = bites++;
-            health = health - ((int)(damage * Time.deltaTime));
-            RefreshDisplay();
-        }
-    }
+
+    
+    
 }

@@ -15,6 +15,7 @@ TagManager:
   - Spider3
   - SpawnPoint
   - Death
+  - CheckPoint
   layers:
   - Default
   - TransparentFX

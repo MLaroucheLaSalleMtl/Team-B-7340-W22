@@ -7,24 +7,31 @@ using UnityEngine.AI;
 [RequireComponent(typeof(BoxCollider))]
 public class SpiderRed_Behavior : MonoBehaviour
 {
+    public Death death;
+
+    public int damage = 5;
+
     // spider sounds
 
     public AudioSource spiderBite;
     // TIMER
 
-    public float timeValue = 3;
+    private float timeValue = 3;
     [SerializeField] private GameObject spiderRed;
-    
+
 
     Animator anim;
     private BoxCollider boxColliderTrigger;
     private SphereCollider sphereCollider;
     private NavMeshAgent navSpider;
     private bool isDead;
+    public bool isBiting;
+
 
     // Start is called before the first frame update
     void Start()
     {
+        death = GameObject.Find("Third Person Player 1.4").GetComponent<Death>();
         // Setting components with desire values 
         // boxColliderTrigger is for recognize the player 
         boxColliderTrigger = GetComponent<BoxCollider>();
@@ -34,7 +41,7 @@ public class SpiderRed_Behavior : MonoBehaviour
 
         // sphereCollider is to push the player 
         sphereCollider = GetComponent<SphereCollider>();
-        sphereCollider.radius = 0.5f;
+        sphereCollider.radius = 0.35f;
         sphereCollider.center = new Vector3(0f, 0.5f, 0f);
 
         // anim control
@@ -49,19 +56,40 @@ public class SpiderRed_Behavior : MonoBehaviour
 
         navSpider.radius = 0.5f;
 
-        navSpider.speed = 3.0f;
+        navSpider.speed = 4.0f;
 
         navSpider.avoidancePriority = 1;
 
-       
+        InvokeRepeating(nameof(IsAttacking), 1f, 1f);
 
-      
-    
     }
 
     private void Update()
     {
         DeadSpiderTimer();
+        AdjustSphereCollider();
+    }
+
+    private void AdjustSphereCollider()
+    {
+        if (gameObject.GetComponent<FollowTarget>().isMoving == true)
+        {
+            Vector3 movingSphereCollider = new Vector3(0, 0.5f, 0.1f);
+            sphereCollider.center = movingSphereCollider;
+        }
+
+        else { sphereCollider.center = new Vector3(0f, 0.5f, 0f); }
+    }
+
+    private void IsAttacking()
+    {
+        if (isBiting)
+        {
+            spiderBite.PlayOneShot(spiderBite.clip);
+            death.health -= damage;
+            death.RefreshDisplay();
+
+        }
     }
 
     private void DeadSpiderTimer()
@@ -71,31 +99,30 @@ public class SpiderRed_Behavior : MonoBehaviour
         if (isDead && timeValue > 0)
         {
             timeValue -= Time.deltaTime;
-           // Debug.Log(timeValue);            
+            // Debug.Log(timeValue);            
         }
         else if (isDead && timeValue <= 0)
         {
             timeValue = 0;
-           // Debug.Log(timeValue);            
+            // Debug.Log(timeValue);            
             Destroy(spiderRed);
         }
-        
+
         else if (gameObject.GetComponent<FollowTarget>().LeftBehind())
         {
             Destroy(spiderRed);
         }
 
-
     }
 
-    
+
     public void SpiderHit()
     {
         anim.SetTrigger("SpiderHit");
         navSpider.isStopped = true;
         sphereCollider.enabled = false;
         boxColliderTrigger.enabled = false;
-        isDead = true;   
+        isDead = true;
 
     }
 
@@ -104,18 +131,18 @@ public class SpiderRed_Behavior : MonoBehaviour
         // recognize if the player is touch 
         if (other.CompareTag("Player"))
         {
-            spiderBite.PlayOneShot(spiderBite.clip);
+            death.RefreshDisplay();
             anim.SetTrigger("Bite");
-            //Debug.Log("BITE ATTACK!");
+            //Debug.Log("BITE ATTACK!");        }
         }
     }
-
     private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Player"))
         {
+            isBiting = true;
             anim.SetTrigger("Bite");
-            //Debug.Log("KEEP BITING!");
+
         }
     }
 
@@ -124,7 +151,7 @@ public class SpiderRed_Behavior : MonoBehaviour
         // recognize if the player is running away 
         if (other.CompareTag("Player"))
         {
-           // Debug.Log("FOLLOW PLAYER!");
+            isBiting = false;
         }
     }
 

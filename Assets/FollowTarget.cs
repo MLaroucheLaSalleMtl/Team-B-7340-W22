@@ -24,7 +24,7 @@ public class FollowTarget : MonoBehaviour
     // For Moving 
     Vector3 lastPosition;
     Transform myTransform;
-    bool isMoving;
+    public bool isMoving;
     Animator anim;
 
     //public GameObject Player; 

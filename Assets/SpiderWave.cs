@@ -19,7 +19,7 @@ public class SpiderWave : MonoBehaviour
 
     private void Start()
     {
-        InvokeRepeating("SpiderCounter", 1f, 1f);
+        InvokeRepeating("SpiderCounter", 0f, 1f);
     }
     private void Update()
     {

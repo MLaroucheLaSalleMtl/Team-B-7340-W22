@@ -7,12 +7,15 @@ using UnityEngine.AI;
 [RequireComponent(typeof(BoxCollider))]
 public class SpiderPurp_Behavior : MonoBehaviour
 {
+    public Death death;
+
+    public int damage = 3;
     // spider sounds
 
     public AudioSource spiderBite;
     // TIMER
 
-    public float timeValue = 5;
+    private float timeValue = 4;
     [SerializeField] private GameObject spiderPurp;
     
 
@@ -21,10 +24,13 @@ public class SpiderPurp_Behavior : MonoBehaviour
     private SphereCollider sphereCollider;
     private NavMeshAgent navSpider;
     private bool isDead;
+    public bool isBiting;
+
 
     // Start is called before the first frame update
     void Start()
     {
+        death = GameObject.Find("Third Person Player 1.4").GetComponent<Death>();
         // Setting components with desire values 
         // boxColliderTrigger is for recognize the player 
         boxColliderTrigger = GetComponent<BoxCollider>();
@@ -34,7 +40,7 @@ public class SpiderPurp_Behavior : MonoBehaviour
 
         // sphereCollider is to push the player 
         sphereCollider = GetComponent<SphereCollider>();
-        sphereCollider.radius = 0.4f;
+        sphereCollider.radius = 0.34f;
         sphereCollider.center = new Vector3(0f, 0.5f, 0f);
 
         // anim control
@@ -49,17 +55,40 @@ public class SpiderPurp_Behavior : MonoBehaviour
 
         navSpider.radius = 0.35f;
 
-        navSpider.speed = 4.5f;
+        navSpider.speed = 5.5f;
 
         navSpider.avoidancePriority = 2;
 
-
+        InvokeRepeating(nameof(IsAttacking), 1f, 1f);
 
     }
 
     private void Update()
-    {
+    {        
         DeadSpiderTimer();
+        AdjustSphereCollider();
+    }
+
+    private void AdjustSphereCollider()
+    {
+        if (gameObject.GetComponent<FollowTarget>().isMoving == true)
+        {
+            Vector3 movingSphereCollider = new Vector3(0, 0.5f, 0.1f);
+            sphereCollider.center = movingSphereCollider;
+        }
+
+        else { sphereCollider.center = new Vector3(0f, 0.5f, 0f); }
+    }
+
+    private void IsAttacking()
+    {
+        if (isBiting)
+        {
+            spiderBite.PlayOneShot(spiderBite.clip);
+            death.health -= damage;
+            death.RefreshDisplay();             
+
+        }
     }
 
     private void DeadSpiderTimer()
@@ -103,10 +132,9 @@ public class SpiderPurp_Behavior : MonoBehaviour
     {
         // recognize if the player is touch 
         if (other.CompareTag("Player"))
-        {
-            spiderBite.PlayOneShot(spiderBite.clip);
-            anim.SetTrigger("Bite");
-           // Debug.Log("BITE ATTACK!");
+        {            
+            death.RefreshDisplay();           
+            anim.SetTrigger("Bite");           
         }
     }
 
@@ -114,8 +142,8 @@ public class SpiderPurp_Behavior : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            anim.SetTrigger("Bite");
-           // Debug.Log("KEEP BITING!");
+            isBiting = true;
+            anim.SetTrigger("Bite");          
         }
     }
 
@@ -124,7 +152,7 @@ public class SpiderPurp_Behavior : MonoBehaviour
         // recognize if the player is running away 
         if (other.CompareTag("Player"))
         {
-           // Debug.Log("FOLLOW PLAYER!");
+            isBiting = false;            
         }
     }
 
