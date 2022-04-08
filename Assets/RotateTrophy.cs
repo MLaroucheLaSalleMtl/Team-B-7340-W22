@@ -10,12 +10,14 @@ public class RotateTrophy : MonoBehaviour
     // to rotate the trophy 
     [SerializeField] private Vector3 rotation;
     [SerializeField] private float speed;
+    //public Death timer; 
 
     //[SerializeField] private Canvas canvasWin;
 
     private void Start()
     {
-       //  canvasWin.enabled = false;
+        //  canvasWin.enabled = false;
+        //timer = GetComponent<Death>(); 
     }
 
     // Update is called once per frame
@@ -32,7 +34,9 @@ public class RotateTrophy : MonoBehaviour
 
             Destroy(gameObject);
 
-            SceneManager.LoadScene("LoadingScene"); 
+            //timer.SaveTime(); 
+
+            //SceneManager.LoadScene("LoadingScene"); 
 
         }
     }

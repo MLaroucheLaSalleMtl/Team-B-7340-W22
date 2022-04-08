@@ -16,10 +16,13 @@ public class DoorToSpiderLevel : MonoBehaviour
     {
         canvas.enabled = true; 
 
-        if (other.CompareTag("Player") && Input.GetKeyDown(KeyCode.F))
+        if (other.CompareTag("Player"))
         {
-            Debug.Log("player is touching the door");
-            SceneManager.LoadScene("SpiderRoom");
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                Debug.Log("player is touching the door");
+                SceneManager.LoadScene("SpiderRoom");
+            }
         }
     }
 

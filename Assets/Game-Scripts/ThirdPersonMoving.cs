@@ -5,11 +5,10 @@ using System;
 using UnityEngine.UI;
 
 public class ThirdPersonMoving : MonoBehaviour
-
 {
     // audio effects
     public AudioClip splashGround;
-    
+
 
     // killed spiders counter
     [SerializeField] private Text txtKills;
@@ -415,9 +414,9 @@ public class ThirdPersonMoving : MonoBehaviour
         // Ray ray = cam.ScreenPointToRay(Input.mousePosition);
 
 
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+
+        if (Input.GetButton("Fire2") && Input.GetButtonDown("Fire1"))
         {
-            
 
             Debug.Log("Shoot");
             // modified line 430 added cam. second argument
@@ -431,7 +430,7 @@ public class ThirdPersonMoving : MonoBehaviour
                 {
                     hit.collider.gameObject.GetComponent<SpiderPurp_Behavior>().SpiderHit();
                     ShotEffects(hit);
-                    
+
 
                 }
 
@@ -439,14 +438,14 @@ public class ThirdPersonMoving : MonoBehaviour
                 {
                     hit.collider.gameObject.GetComponent<SpiderRed_Behavior>().SpiderHit();
                     ShotEffects(hit);
-                   
+
                 }
 
                 else if (hit.collider.CompareTag("Spider3"))
                 {
                     hit.collider.gameObject.GetComponent<SpiderBlack_Behavior>().SpiderHit();
                     ShotEffects(hit);
-                   
+
 
                 }
 
@@ -460,6 +459,7 @@ public class ThirdPersonMoving : MonoBehaviour
                 }
             }
         }
+
     }
 
     private void ShotEffects(RaycastHit hit)
@@ -469,7 +469,7 @@ public class ThirdPersonMoving : MonoBehaviour
         GameObject copy = Instantiate(spBlood, hit.point, rotation);
         copy.transform.parent = hit.transform;
         AudioSource.PlayClipAtPoint(splashGround, hit.point);
-        
+
 
 
         kills++;

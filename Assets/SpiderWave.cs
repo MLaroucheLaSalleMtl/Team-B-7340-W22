@@ -39,7 +39,7 @@ public class SpiderWave : MonoBehaviour
         TotalSpidersAlive = PurpleSpidersAlive + RedSpidersAlive + BlackSpidersAlive;
 
     }
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
