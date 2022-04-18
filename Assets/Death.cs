@@ -10,6 +10,8 @@ public class Death : MonoBehaviour
 {
     public static Death Instance = null; // singleton 
 
+    public ScreenDamage screen;
+
     // For dying by falling or by health/bites 
 
     //[SerializeField] Transform player;
@@ -57,6 +59,7 @@ public class Death : MonoBehaviour
     private void Start()
     {
         RefreshDisplay();
+        screen = GameObject.Find("Canvas Screen Damage").GetComponentInChildren<ScreenDamage>();
     }
 
     void Awake()
@@ -109,6 +112,8 @@ public class Death : MonoBehaviour
         audioSource.PlayOneShot(respawnSound);
         transform.position = originalPos;
         health = Maxhealth;
+        screen.ResetVisualDamage();
+
     }
 
     public void Health()
@@ -131,6 +136,7 @@ public class Death : MonoBehaviour
     {
         health = Maxhealth;      
         RefreshDisplay();
+        screen.ResetVisualDamage();
     }
 
     public void TimeModifier()

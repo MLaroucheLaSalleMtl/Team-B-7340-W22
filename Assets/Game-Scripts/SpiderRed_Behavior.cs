@@ -7,6 +7,7 @@ using UnityEngine.AI;
 [RequireComponent(typeof(BoxCollider))]
 public class SpiderRed_Behavior : MonoBehaviour
 {
+    public ScreenDamage screen; 
     public Death death;
 
     public int damage = 5;
@@ -32,6 +33,7 @@ public class SpiderRed_Behavior : MonoBehaviour
     void Start()
     {
         death = GameObject.Find("Third Person Player 1.4").GetComponent<Death>();
+        screen = GameObject.Find("Canvas Screen Damage").GetComponentInChildren<ScreenDamage>();
         // Setting components with desire values 
         // boxColliderTrigger is for recognize the player 
         boxColliderTrigger = GetComponent<BoxCollider>();
@@ -56,9 +58,9 @@ public class SpiderRed_Behavior : MonoBehaviour
 
         navSpider.radius = 0.5f;
 
-        navSpider.speed = 4.0f;
+        navSpider.speed = 4.5f;
 
-        navSpider.avoidancePriority = 1;
+        navSpider.avoidancePriority = 3;
 
         InvokeRepeating(nameof(IsAttacking), 1f, 1f);
 
@@ -88,7 +90,7 @@ public class SpiderRed_Behavior : MonoBehaviour
             spiderBite.PlayOneShot(spiderBite.clip);
             death.health -= damage;
             death.RefreshDisplay();
-
+            screen.VisualDamage();
         }
     }
 

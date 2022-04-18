@@ -76,6 +76,7 @@ public class ThirdPersonMoving6thFloor : MonoBehaviour
 
     private void Move()
     {
+       
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical"); //TODO: CHANGE TO NEW INPUT SYSTEM
         Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized; // the vector is normalized giving it a max value of one.
@@ -117,14 +118,16 @@ public class ThirdPersonMoving6thFloor : MonoBehaviour
 
         // Move
         controller.Move(velocity * Time.deltaTime);
-
+        
     }
 
     private void CamRotation()
     {
+
         yaw = ClampAngle(yaw, float.MinValue, float.MaxValue);
         pitch = ClampAngle(pitch, BottomClamp, TopClamp);
         transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
+
 
     }
 
@@ -301,19 +304,19 @@ public class ThirdPersonMoving6thFloor : MonoBehaviour
         body.velocity = pushDir * pushPower;
     }
 
-    private void OnGUI()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
-        if (Input.GetKeyDown(KeyCode.Mouse1))
-        {
+    //private void OnGUI()
+    //{
+    //    Cursor.lockState = CursorLockMode.Locked;
+    //    if (Input.GetKeyDown(KeyCode.Mouse1))
+    //    {
 
-            Cursor.visible = false;
-        }
-        else if (Input.GetKeyUp(KeyCode.Mouse1))
-        {
-            Cursor.visible = false;
-        }
-    }
+    //        Cursor.visible = false;
+    //    }
+    //    else if (Input.GetKeyUp(KeyCode.Mouse1))
+    //    {
+    //        Cursor.visible = false;
+    //    }
+    //}
 
     // function taken from unity scripts, sets a limit to the vertical rotation of the camera
     private static float ClampAngle(float lfAngle, float lfMin, float lfMax)

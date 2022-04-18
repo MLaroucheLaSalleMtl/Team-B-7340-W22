@@ -7,8 +7,9 @@ using UnityEngine.UI;
 public class ThirdPersonMoving : MonoBehaviour
 {
     // audio effects
+    public AudioSource audioSource;
     public AudioClip splashGround;
-
+    public AudioClip shootSound;
 
     // killed spiders counter
     [SerializeField] private Text txtKills;
@@ -27,6 +28,7 @@ public class ThirdPersonMoving : MonoBehaviour
     const float crouch_scale = 0.65f;
     // Animation 
     Animator anim;
+
     // movement
     public CharacterController controller;
     [SerializeField] private static float initial_speed = 3f;
@@ -60,6 +62,7 @@ public class ThirdPersonMoving : MonoBehaviour
 
     public Camera cam;
     private float range = 100f;
+    public static bool isShooting = false;
 
     // cam rotation when aiming
 
@@ -118,8 +121,10 @@ public class ThirdPersonMoving : MonoBehaviour
         txtKills.text = preText1 + kills.ToString();
         gameObject.GetComponent<Death>().TimeModifier();
     }
-    private void Move()
+    public void Move()
     {
+
+        if (PauseMenu.gamePaused) { return; }
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical"); //TODO: CHANGE TO NEW INPUT SYSTEM
         Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized; // the vector is normalized giving it a max value of one.
@@ -179,7 +184,6 @@ public class ThirdPersonMoving : MonoBehaviour
         yaw = ClampAngle(yaw, float.MinValue, float.MaxValue);
         pitch = ClampAngle(pitch, BottomClamp, TopClamp);
         transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
-
     }
 
     private void ResetFallingSpeed()
@@ -321,6 +325,11 @@ public class ThirdPersonMoving : MonoBehaviour
 
     private void EnableGun()
     {
+        if (isRunning)
+        {
+            hasGun = false;
+            return;
+        }
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
             hasGun = true;
@@ -392,32 +401,20 @@ public class ThirdPersonMoving : MonoBehaviour
         body.velocity = pushDir * pushPower;
     }
 
-    private void OnGUI()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
-        if (Input.GetKeyDown(KeyCode.Mouse1))
-        {
-
-            Cursor.visible = false;
-        }
-        else if (Input.GetKeyUp(KeyCode.Mouse1))
-        {
-            Cursor.visible = false;
-        }
-    }
-
+   
     private void Shoot()
     {
-
+        
 
         RaycastHit hit;
         // Ray ray = cam.ScreenPointToRay(Input.mousePosition);
 
 
 
-        if (Input.GetButton("Fire2") && Input.GetButtonDown("Fire1"))
+        if (Input.GetButton("Fire2") && Input.GetButtonDown("Fire1") && hasGun)
         {
-
+            audioSource.PlayOneShot(shootSound, 0.5f);
+            isShooting = true;
             Debug.Log("Shoot");
             // modified line 430 added cam. second argument
             //if (Physics.Raycast(ray, out hit))
@@ -456,11 +453,15 @@ public class ThirdPersonMoving : MonoBehaviour
                     GameObject copy = Instantiate(water, hit.point, rotation);
                     copy.transform.parent = hit.transform;
                     AudioSource.PlayClipAtPoint(splashGround, hit.point);
+
+
                 }
             }
         }
+        else { isShooting = false; }
 
     }
+
 
     private void ShotEffects(RaycastHit hit)
     {
@@ -471,10 +472,10 @@ public class ThirdPersonMoving : MonoBehaviour
         AudioSource.PlayClipAtPoint(splashGround, hit.point);
 
 
-
         kills++;
         RefreshDisplay();
     }
+
 
 
     // function taken from unity scripts, sets a limit to the vertical rotation of the camera
@@ -487,6 +488,7 @@ public class ThirdPersonMoving : MonoBehaviour
 
 
 }
+
 
 
 

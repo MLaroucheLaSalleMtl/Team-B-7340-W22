@@ -16,7 +16,7 @@ public class WalkingSound : MonoBehaviour
     {
         if(other.CompareTag("Player"))
         {
-            Debug.Log("AUDIO COLLIDER WORKING");
+            //Debug.Log("AUDIO COLLIDER WORKING");
             spiderWalkSound.loop = true;
             spiderWalkSound.Play();
         }

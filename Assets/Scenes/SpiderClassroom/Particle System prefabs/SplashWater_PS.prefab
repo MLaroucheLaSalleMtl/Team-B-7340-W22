@@ -4881,6 +4881,7 @@ GameObject:
   - component: {fileID: 665480650266125073}
   - component: {fileID: 665480650266125072}
   - component: {fileID: 665480650266125075}
+  - component: {fileID: -9156840473292649686}
   m_Layer: 0
   m_Name: SplashWater_PS
   m_TagString: Untagged
@@ -9742,6 +9743,18 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &-9156840473292649686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 665480650266125074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cd9c4760e5e6f840b42fe89049453ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &665480651130783654
 GameObject:
   m_ObjectHideFlags: 0

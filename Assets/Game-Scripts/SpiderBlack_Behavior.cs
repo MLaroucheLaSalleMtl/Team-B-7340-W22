@@ -9,7 +9,8 @@ public class SpiderBlack_Behavior : MonoBehaviour
 {
     // death script
 
-   
+    public ScreenDamage screen;
+
     public Death death;
 
     public int damage = 2;
@@ -29,12 +30,15 @@ public class SpiderBlack_Behavior : MonoBehaviour
     private SphereCollider sphereCollider;
     private NavMeshAgent navSpider;
     private bool isDead;
-    public bool isBiting;
+    public  bool isBiting;
 
     // Start is called before the first frame update
     void Start()
     {
         death = GameObject.Find("Third Person Player 1.4").GetComponent<Death>();
+
+        screen = GameObject.Find("Canvas Screen Damage").GetComponentInChildren<ScreenDamage>();
+
         // Setting components with desire values 
         // boxColliderTrigger is for recognize the player 
         boxColliderTrigger = GetComponent<BoxCollider>();
@@ -61,7 +65,7 @@ public class SpiderBlack_Behavior : MonoBehaviour
 
         navSpider.speed = 7.0f;
 
-        navSpider.avoidancePriority = 3;
+        navSpider.avoidancePriority = 1;
 
         InvokeRepeating(nameof(IsAttacking), 1f, 1f);
 
@@ -90,9 +94,7 @@ public class SpiderBlack_Behavior : MonoBehaviour
         {
             death.health -= damage;
             death.RefreshDisplay();
-            Debug.Log(death.health);
-
-
+            screen.VisualDamage();
         }
     }
 

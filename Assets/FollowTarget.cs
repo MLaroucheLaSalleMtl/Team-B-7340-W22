@@ -88,7 +88,7 @@ public class FollowTarget : MonoBehaviour
 
     public bool LeftBehind()
     {
-        if (Vector3.Distance(lastPosition, target.position) < 60f)
+        if (Vector3.Distance(lastPosition, target.position) < 50f)
         {           
             return false;
         }

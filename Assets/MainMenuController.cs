@@ -32,6 +32,8 @@ public class MainMenuController: MonoBehaviour
 
 	private void Start()
 	{
+		Cursor.lockState = CursorLockMode.None;
+
 		resolutions = Screen.resolutions;
 		resolutionDropdown.ClearOptions();
 

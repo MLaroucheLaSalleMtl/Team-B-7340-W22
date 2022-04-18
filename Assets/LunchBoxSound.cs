@@ -14,7 +14,7 @@ public class LunchBoxSound : MonoBehaviour
     {
         if (other.CompareTag("Ground"))
         {
-            Debug.Log("lunch box hit the ground");
+           // Debug.Log("lunch box hit the ground");
             lunchbox.PlayOneShot(lunchbox.clip);
         }
     }

@@ -17,23 +17,16 @@ public class MiniManager : MonoBehaviour
         RefreshScore(); 
     }
 
-    public void CompleteLevel()
-    {
-        Debug.Log("LEVEL COMPLETE");
-        //SceneManager.LoadScene("6thFloor"); 
-    }
-
     private void Awake()
     {
         instance = this;
     }
 
-    private void Update()
-    {
-        if (Input.GetButtonUp("Cancel"))
-            Application.Quit();
-
-    }
+    //private void Update()
+    //{
+    //    if (Input.GetButtonUp("Cancel"))
+    //        Application.Quit();
+    //}
 
     public void AddPoints()
     {

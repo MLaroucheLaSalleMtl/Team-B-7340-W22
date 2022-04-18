@@ -21,6 +21,7 @@ public class SpiderWave : MonoBehaviour
     {
         InvokeRepeating("SpiderCounter", 0f, 1f);
     }
+
     private void Update()
     {
         SpawnSpiderBlack(enable);

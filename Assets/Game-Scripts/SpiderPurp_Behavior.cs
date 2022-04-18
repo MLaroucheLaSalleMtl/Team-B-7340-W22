@@ -7,6 +7,8 @@ using UnityEngine.AI;
 [RequireComponent(typeof(BoxCollider))]
 public class SpiderPurp_Behavior : MonoBehaviour
 {
+    public ScreenDamage screen;
+
     public Death death;
 
     public int damage = 3;
@@ -31,6 +33,7 @@ public class SpiderPurp_Behavior : MonoBehaviour
     void Start()
     {
         death = GameObject.Find("Third Person Player 1.4").GetComponent<Death>();
+        screen = GameObject.Find("Canvas Screen Damage").GetComponentInChildren<ScreenDamage>();
         // Setting components with desire values 
         // boxColliderTrigger is for recognize the player 
         boxColliderTrigger = GetComponent<BoxCollider>();
@@ -55,7 +58,7 @@ public class SpiderPurp_Behavior : MonoBehaviour
 
         navSpider.radius = 0.35f;
 
-        navSpider.speed = 5.5f;
+        navSpider.speed = 6.0f;
 
         navSpider.avoidancePriority = 2;
 
@@ -86,7 +89,8 @@ public class SpiderPurp_Behavior : MonoBehaviour
         {
             spiderBite.PlayOneShot(spiderBite.clip);
             death.health -= damage;
-            death.RefreshDisplay();             
+            death.RefreshDisplay();
+            screen.VisualDamage();
 
         }
     }
@@ -122,10 +126,6 @@ public class SpiderPurp_Behavior : MonoBehaviour
         sphereCollider.enabled = false;
         boxColliderTrigger.enabled = false;
         isDead = true;
-     
-
-
-
     }
 
     private void OnTriggerEnter(Collider other)
