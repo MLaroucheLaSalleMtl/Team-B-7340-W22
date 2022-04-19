@@ -8,6 +8,8 @@ public class MiniManager : MonoBehaviour
 {
     public static MiniManager instance = null; // singleton 
 
+    private WinMenu win; 
+
     public AudioSource collectSound;
     public Text trophyText;
     public int score = 0;
@@ -47,9 +49,10 @@ public class MiniManager : MonoBehaviour
     //    score++;
     //    trophyText.GetComponent<Text>().text = score.ToString();
     //    Destroy(gameObject);
-    //}
+    ////}
     public void CompleteSpiders()
     {
-        SceneManager.LoadScene("LoadingScene"); 
+        //win.Pause();
+       // SceneManager.LoadScene("LoadingScene"); 
     }
 }

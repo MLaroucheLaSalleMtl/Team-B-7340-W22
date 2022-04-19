@@ -10,6 +10,7 @@ public class TrophiesScript : MonoBehaviour
     //public static int score;
 
     private MiniManager manager;
+    private WinMenu win; 
     //private int maxTrophies = 5; 
     //public AudioSource collectSound;
 
@@ -28,9 +29,10 @@ public class TrophiesScript : MonoBehaviour
             manager.AddPoints();
             Destroy(gameObject);
             if (manager.score == 5)
-                manager.CompleteSpiders();
+                manager?.CompleteSpiders(); 
         }
     }
+
 
     private void Start()
     {

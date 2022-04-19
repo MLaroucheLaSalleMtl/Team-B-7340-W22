@@ -124,7 +124,7 @@ public class ThirdPersonMoving : MonoBehaviour
     public void Move()
     {
 
-        if (PauseMenu.gamePaused) { return; }
+        if (PauseMenu2.isPaused || WinMenu.gamePaused) { return; }
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical"); //TODO: CHANGE TO NEW INPUT SYSTEM
         Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized; // the vector is normalized giving it a max value of one.

@@ -76,7 +76,7 @@ public class ThirdPersonMoving6thFloor : MonoBehaviour
 
     private void Move()
     {
-       
+        if (PauseMenu2.isPaused) { return; }
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical"); //TODO: CHANGE TO NEW INPUT SYSTEM
         Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized; // the vector is normalized giving it a max value of one.
