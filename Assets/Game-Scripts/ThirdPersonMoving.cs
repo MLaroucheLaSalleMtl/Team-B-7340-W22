@@ -101,7 +101,7 @@ public class ThirdPersonMoving : MonoBehaviour
 
         Move();
 
-        Jump();
+      //  Jump();
 
         Crouch();
 
@@ -269,7 +269,7 @@ public class ThirdPersonMoving : MonoBehaviour
         anim.SetBool("Jump", false);
     }
 
-    private void Jump()
+    public void Jump()
     {
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded && (!isCrouched))
         {
